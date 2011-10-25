@@ -2,7 +2,7 @@ module GetResponse
 
   # GetResponse contact
   class Contact
-    attr_accessor :campaign, :name, :email, :cycle_day, :ip, :customs
+    attr_accessor :campaign, :name, :email, :cycle_day, :ip, :customs, :created_on, :deleted_on, :reason
     attr_reader :id
 
 
@@ -15,6 +15,9 @@ module GetResponse
       @customs = parse_customs(params["customs"])
       @id = params["id"]
       @connection = connection
+      @created_on = params["created_on"]
+      @deleted_on = params["deleted_on"]
+      @reason = params["reason"]
     end
 
 

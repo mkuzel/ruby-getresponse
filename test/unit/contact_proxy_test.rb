@@ -50,4 +50,15 @@ class GetResponse::ContactProxyTest < Test::Unit::TestCase
     assert_raise(GetResponse::GetResponseError) { @proxy.create(new_contact_attrs) }
   end
 
+
+  def test_all_deleted
+    mock(@connection).send_request('get_contacts_deleted') { JSON.parse get_contacts_deleted_resp }
+    all_contacts = @proxy.deleted
+
+    assert_kind_of Array, all_contacts
+    assert all_contacts.all? { |contact| contact.kind_of? GetResponse::Contact }
+    assert all_contacts.all? { |contact| contact.reason == "bounce" }
+    assert all_contacts.all? { |contact| !contact.deleted_on.nil? }
+  end
+
 end

@@ -33,6 +33,18 @@ module GetResponse
       contact
     end
 
+
+    # Get all deleted contacts for account.
+    #
+    # returns:: Array of GetResponse::Contact
+    def deleted
+      response = @connection.send_request("get_contacts_deleted")
+
+      response["result"].inject([]) do |contacts, resp|
+        contacts << Contact.new(resp[1].merge("id" => resp[0]), @connection)
+      end
+    end
+
   end
 
 end
